@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIPC 2026 · 공군사관학교 AI 파일럿 경진대회 | DAS Lab.</title>
+<meta name="description" content="생도가 행동트리로 설계한 AI 파일럿이 교범 기반 공통 비행 엔진으로 1:1 공중교전을 벌이는 2026 공군사관학교 AI 파일럿 경진대회 소개와 현장 무대 경기 리플레이.">
+<meta name="theme-color" content="#11161f">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rokafa-daslab.github.io/">
+<meta property="og:title" content="AIPC 2026 · 2026 공군사관학교 AI 파일럿 경진대회">
+<meta property="og:description" content="생도가 설계한 AI 파일럿의 1:1 공중교전 — 현장 무대 경기 리플레이">
+<meta property="og:image" content="https://rokafa-daslab.github.io/img/highlight.jpg">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap">
+<style>
+  /* 색은 대회 사이트(ai-pilot.boramae.club) 다크 모드 토큰과 같다. */
+  :root {
+    --bg: oklch(0.155 0.012 252);
+    --card: oklch(0.196 0.014 252);
+    --line: oklch(0.30 0.016 252);
+    --fg: oklch(0.955 0.004 250);
+    --muted: oklch(0.72 0.018 250);
+    --signal: oklch(0.82 0.14 75);
+    --signal-dim: oklch(0.66 0.09 75);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg) radial-gradient(64rem 30rem at 50% -12rem, oklch(0.32 0.05 252 / .55), transparent) no-repeat;
+    color: var(--fg);
+    font: 400 1.0625rem/1.7 "IBM Plex Sans KR", system-ui, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+  .mono {
+    font: 500 .78rem/1.4 "IBM Plex Mono", "IBM Plex Sans KR", ui-monospace, monospace;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .top .lab { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+  .top .lab b { color: var(--signal); }
+  .top .lab span { color: var(--muted); font-size: .9rem; }
+  .top a { color: var(--muted); text-decoration: none; white-space: nowrap; }
+  .top a:hover { color: var(--fg); }
+
+  .hero { padding: 56px 0 24px; }
+  .hero > .mono { color: var(--signal); }
+  h1 { font-size: clamp(2rem, 6vw, 3.4rem); line-height: 1.2; letter-spacing: -.01em; margin: 12px 0 20px; }
+  .lede { font-size: clamp(1.05rem, 2.2vw, 1.25rem); max-width: 46rem; margin: 0 0 8px; }
+  .en { color: var(--muted); font-size: .95rem; max-width: 46rem; margin: 0 0 28px; }
+  .cta { display: inline-flex; gap: 8px; padding: 11px 20px; border: 1px solid var(--signal); border-radius: 999px; color: var(--signal); text-decoration: none; font-weight: 500; }
+  .cta:hover { background: var(--signal); color: var(--bg); }
+  .hero .video { margin-top: 36px; }
+  .cap { color: var(--muted); font-size: .9rem; margin: 10px 0 0; }
+
+  /* 영상: 썸네일 버튼 → 누르면 그 자리에 유튜브 플레이어. data-id 가 비면 준비 중. */
+  .video { position: relative; aspect-ratio: 16 / 9; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #000; }
+  .video > * { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .yt { padding: 0; background: none; cursor: pointer; }
+  .yt img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .3s; }
+  .yt:hover img { transform: scale(1.02); }
+  .yt:focus-visible { outline: 3px solid var(--signal); outline-offset: -3px; }
+  .yt::after {
+    content: ""; position: absolute; inset: 0; margin: auto; width: 72px; height: 72px; border-radius: 50%;
+    border: 1px solid var(--signal);
+    background: oklch(0.155 0.012 252 / .72) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 5v14l11-7z' fill='%23f2b544'/%3E%3C/svg%3E") 55% 50% / 30px no-repeat;
+  }
+  .yt:disabled { cursor: default; }
+  .yt:disabled img { transform: none; }
+  .yt:disabled::after {
+    content: "영상 준비 중"; inset: auto 12px 12px auto; margin: 0; width: auto; height: auto; padding: 4px 14px;
+    border-color: var(--line); background: oklch(0.155 0.012 252 / .82); color: var(--muted); font-size: .85rem;
+  }
+
+  section { padding: 40px 0; }
+  .head .mono { color: var(--signal-dim); }
+  h2 { font-size: clamp(1.4rem, 3.2vw, 1.9rem); line-height: 1.35; margin: 6px 0 8px; }
+  .head p { color: var(--muted); max-width: 48rem; margin: 0 0 24px; }
+
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; }
+  .step { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
+  .step .mono { color: var(--signal); }
+  .step h3 { font-size: 1.15rem; margin: 6px 0 8px; }
+  .step p { color: var(--muted); font-size: .95rem; margin: 0; }
+
+  .clips { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: 32px 24px; }
+  .clip .mono { display: block; color: var(--signal-dim); margin-top: 14px; }
+  .clip h3 { font-size: 1.2rem; margin: 4px 0 4px; }
+  .clip h3 small { color: var(--muted); font-weight: 400; font-size: .85rem; margin-left: 6px; }
+  .clip p { color: var(--muted); font-size: .95rem; margin: 4px 0; }
+  .clip .res { color: var(--fg); font-size: .9rem; }
+
+  .note { color: var(--muted); font-size: .9rem; border-left: 2px solid var(--signal-dim); padding-left: 14px; margin: 8px 0 48px; }
+  footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; border-top: 1px solid var(--line); padding: 24px 0 40px; color: var(--muted); font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="lab"><b class="mono">DAS Lab.</b><span>공군사관학교 국방 AI 시스템 연구실</span></div>
+    <a class="mono" href="https://github.com/rokafa-daslab">GitHub ↗</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="mono">AIPC 2026 · AI Pilot Competition</div>
+      <h1>2026 공군사관학교<br>AI 파일럿 경진대회</h1>
+      <p class="lede">생도가 공중전 전술을 행동트리(BT)로 설계해 제출하면, 교범 기반 공통 비행 엔진이 F-16을 조종하고 클라우드가 자동으로 경기를 치릅니다.</p>
+      <p class="en">Cadets design air-combat tactics as behavior trees. A common, doctrine-based flight engine flies the F-16, and a serverless pipeline runs every engagement.</p>
+      <a class="cta" href="https://ai-pilot.boramae.club/">대회 사이트 바로가기 <span aria-hidden="true">→</span></a>
+      <div class="video">
+        <button class="yt" data-id="" aria-label="영상 재생: AIPC 2026 매치 하이라이트"><img src="img/highlight.jpg" alt=""></button>
+      </div>
+      <p class="cap">매치 하이라이트 · 소리 있음</p>
+    </section>
+
+    <section>
+      <div class="head">
+        <div class="mono">How it works</div>
+        <h2>어떻게 겨루나</h2>
+      </div>
+      <div class="steps">
+        <article class="step">
+          <div class="mono">01 · Tactics</div>
+          <h3>전술 설계</h3>
+          <p>생도는 전술 행동트리만 YAML로 작성합니다. 조건과 행동을 조합하고, F-16 BFM 교범의 설정값을 허용 범위 안에서 조정해 ‘언제 무엇을 할지’를 정합니다.</p>
+        </article>
+        <article class="step">
+          <div class="mono">02 · Common flight</div>
+          <h3>공통 비행 엔진</h3>
+          <p>교범 기반 기동 유도, INDI 비행제어, JSBSim F-16 6자유도 모델은 모든 참가자에게 똑같이 적용됩니다. 승패는 조종 품질이 아니라 전술 설계에서 갈립니다.</p>
+        </article>
+        <article class="step">
+          <div class="mono">03 · Automated evaluation</div>
+          <h3>무인 자동 평가</h3>
+          <p>제출물은 서버리스 클라우드에서 자동으로 검증·실행되고, 결과와 3D 리플레이가 돌아옵니다. 라운드마다 풀리그를 치르고, 상위 팀은 현장 무대에서 다시 겨룹니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="head">
+        <div class="mono">Replays from the stage</div>
+        <h2>현장 무대에서 나온 교범 기동</h2>
+        <p>현장 무대 경기에서 생도들의 AI 파일럿이 펼친 교범(F-16 BEM) 기동입니다. 대회 웹 3D 리플레이 뷰어로 경기 원본 궤적을 재생해 녹화했습니다(소리 없음).</p>
+      </div>
+      <div class="clips">
+        <article class="clip">
+          <div class="video">
+            <button class="yt" data-id="" aria-label="영상 재생: 투서클, R1 결승"><img src="img/r1_final.jpg" alt="" loading="lazy"></button>
+          </div>
+          <span class="mono">R1 결승 · Neutral duel · BEM 4.4.4</span>
+          <h3>투서클 <small>Two-circle fight</small></h3>
+          <p>정면으로 교차한 직후 두 기체가 같은 방향으로 선회해 원 두 개를 그리고 다시 마주칩니다.</p>
+          <p class="res">The_Chase vs Friendly_NAVER — The_Chase 승 · 격추</p>
+        </article>
+        <article class="clip">
+          <div class="video">
+            <button class="yt" data-id="" aria-label="영상 재생: 스플릿S형 수직 반전, R2 준결승"><img src="img/r2_semifinal.jpg" alt="" loading="lazy"></button>
+          </div>
+          <span class="mono">R2 준결승 · Perch offense</span>
+          <h3>스플릿S형 수직 반전 <small>Split-S</small></h3>
+          <p>후방 위협을 받은 horse_power가 배면으로 뒤집어 수직 강하로 이탈합니다.</p>
+          <p class="res">maechuri_6 vs horse_power — maechuri_6 승 · 격추</p>
+        </article>
+        <article class="clip">
+          <div class="video">
+            <button class="yt" data-id="" aria-label="영상 재생: 브레이크 턴과 후방 추적 사격, R2 결승"><img src="img/r2_final.jpg" alt="" loading="lazy"></button>
+          </div>
+          <span class="mono">R2 결승 · Perch offense · BEM 4.4.12</span>
+          <h3>브레이크 턴 → 후방 추적 사격 <small>Break turn → tracking shot</small></h3>
+          <p>BlackMamba가 고G 브레이크로 벗어나려 하지만, maechuri_6가 후방 60° 원뿔 안에서 끝까지 추적해 격추합니다. 결승 전체 18초.</p>
+          <p class="res">maechuri_6 vs BlackMamba — maechuri_6 승 · 격추</p>
+        </article>
+        <article class="clip">
+          <div class="video">
+            <button class="yt" data-id="" aria-label="영상 재생: 임멜만형 수직 반전, R3 준결승"><img src="img/r3_semifinal.jpg" alt="" loading="lazy"></button>
+          </div>
+          <span class="mono">R3 준결승 · Butterfly</span>
+          <h3>임멜만형 수직 반전 <small>Immelmann</small></h3>
+          <p>교차 직후 Wild_Turkey가 수직으로 당겨 올라 정점에서 배면으로 롤아웃하며 기수를 다시 상대에게 돌립니다.</p>
+          <p class="res">Wild_Turkey vs GH_StR — GH_StR 승 · 시간 종료 판정</p>
+        </article>
+      </div>
+    </section>
+
+    <p class="note">이 페이지는 2026 한국군사과학기술학회 추계학술대회 포스터 「교범 기반 AI 파일럿 경진대회 플랫폼의 설계와 운영 검증」의 시연 자료입니다.</p>
+  </main>
+
+  <footer>
+    <span>© 2026 DAS Lab. · 공군사관학교 국방 AI 시스템 연구실</span>
+    <span><a href="https://ai-pilot.boramae.club/">ai-pilot.boramae.club</a> · <a href="https://github.com/rokafa-daslab">GitHub</a></span>
+  </footer>
+</div>
+<script>
+  // 썸네일을 누를 때만 플레이어를 불러온다 — 유튜브 iframe 은 한 개에 수백 KB 라,
+  // 현장에서 휴대폰으로 열 때 다섯 개를 한꺼번에 받지 않게.
+  for (const b of document.querySelectorAll('.yt')) {
+    if (!b.dataset.id) { b.disabled = true; continue }
+    b.addEventListener('click', () => {
+      const f = document.createElement('iframe')
+      f.src = 'https://www.youtube-nocookie.com/embed/' + b.dataset.id + '?autoplay=1&rel=0&playsinline=1'
+      f.title = b.getAttribute('aria-label').replace('영상 재생: ', '')
+      f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen'
+      f.allowFullscreen = true
+      b.replaceWith(f)
+    })
+  }
+</script>
+</body>
+</html>
